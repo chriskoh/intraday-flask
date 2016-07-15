@@ -1,0 +1,12 @@
+<html>
+	<head>
+		<title>Stock Data</title>
+	</head>
+	<body>
+		<h1>Intraday Data Analysis</h1>
+		<form method='post' action='{{ url_for("volatility") }}'>
+			Ticker: <input type='text' name='ticker' /><br/><br/>
+			<input type='submit' value='Search' />
+		</form>
+	</body>
+</html>
