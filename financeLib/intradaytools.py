@@ -5,6 +5,7 @@
 import datetime
 import os
 import requests
+import sys
 from bs4 import BeautifulSoup, NavigableString
 
 # scrape website, return html
@@ -73,11 +74,11 @@ def minmax(dictionary, dataset):
 		if dictionary[str(x) + dataset] < lowval:
 			lowval = dictionary[str(x) + dataset]
 			lowmin = x
-			lowamount = dictionary[str(x) + 'close']
+			lowamount = '{:.2f}'.format(dictionary[str(x) + 'close'])
 		if dictionary[str(x) + dataset] > highval:
 			highval = dictionary[str(x) + dataset]
 			highmin = x
-			highamount = dictionary[str(x) + 'close']
+			highamount = '{:.2f}'.format(dictionary[str(x) + 'close'])
 		allvals.append(dictionary[str(x) + dataset])
 
 	# calculate times (based on market open (6:30 GMT+8)
@@ -87,6 +88,8 @@ def minmax(dictionary, dataset):
 	highdelta = datetime.timedelta(minutes = int(highmin))
 	marketlow = marketopen + lowdelta
 	markethigh = marketopen + highdelta
+	marketlow = str(marketlow.strftime("%I:%M%p"))
+	markethigh = str(markethigh.strftime("%I:%M%p"))
 
 	return lowval, marketlow, lowamount, highval, markethigh, highamount, allvals
 

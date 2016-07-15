@@ -114,7 +114,13 @@ def volatility():
 	lowvalVBM, lowtimeVBM, lowamountVBM, highvalVBM, hightimeVBM, highamountVBM, allvalsVBM = minmax(average, 'volatilityByMin')
 	lowvalVMO, lowtimeVMO, lowamountVMO, highvalVMO, hightimeVMO, highamountVMO, allvalsVMO = minmax(average, 'volatilityVsMktOpen')
 
-	return render_template('volatility.html', ticker=ticker, market=market, highamountVBM=highamountVBM, highvalVBM=highvalVBM, hightimeVBM=hightimeVBM, lowamountVBM=lowamountVBM, lowvalVBM=lowvalVBM, lowtimeVBM=lowtimeVBM, highamountVMO=highamountVMO, highvalVMO=highvalVMO, hightimeVMO=hightimeVMO, lowamountVMO=lowamountVMO, lowtimeVMO=lowtimeVMO, lowvalVMO=lowvalVMO)
+	graphVBM = createLineGraph('Volatility by Minute', 'volByMin', allvalsVBM)
+	displayVBM = displayLineGraph('volByMin')	
+
+	graphVMO = createLineGraph('Volatility by Minuite Vs. Market Open', 'volVsMktOpen', allvalsVMO)
+	displayVMO = displayLineGraph('volVsMktOpen')
+
+	return render_template('volatility.html', ticker=ticker, market=market, highamountVBM=highamountVBM, highvalVBM=highvalVBM, hightimeVBM=hightimeVBM, lowamountVBM=lowamountVBM, lowvalVBM=lowvalVBM, lowtimeVBM=lowtimeVBM, highamountVMO=highamountVMO, highvalVMO=highvalVMO, hightimeVMO=hightimeVMO, lowamountVMO=lowamountVMO, lowtimeVMO=lowtimeVMO, lowvalVMO=lowvalVMO, graphVBM=graphVBM, displayVBM=displayVBM, graphVMO=graphVMO, displayVMO=displayVMO)
 
 
 

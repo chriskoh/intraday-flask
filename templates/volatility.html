@@ -1,11 +1,20 @@
 <html>
 	<head>
+		<script type='text/javascript'>
+			window.onload = function(){
+				{{graphVBM}}
+				{{graphVMO}}
+			}
+		</script>
+		<script type='text/javascript' src='http://canvasjs.com/assets/script/canvasjs.min.js'></script>
 		<title>Volatility: {{ticker}}</title>
 	</head>
 	<body>
 		<h1>Volatility: {{ticker}} ({{market}})</h1>
+		{{displayVBM}}
 		<p>Highest: ${{highamountVBM}} @ {{highvalVBM}}% ({{hightimeVBM}})</p>
 		<p>Lowest: ${{lowamountVBM}} @ {{lowvalVBM}}% ({{lowtimeVBM}})</p><br/>
+		{{displayVMO}}
 		<p>Highest: ${{highamountVMO}} @ {{highvalVMO}}% ({{hightimeVMO}})</p>
 		<p>Lowest: ${{lowamountVMO}} @ {{lowvalVMO}}% ({{lowtimeVMO}})</p><br/>
 	</body>
