@@ -32,7 +32,8 @@ def volatility():
     temp(ticker, market)
 
     # open tempfile, save lines, delete temp file.
-    templines = open('/intradata/temp').readlines()
+    with open ('/intradata/temp') as f:
+        templines = f.readlines()
     os.remove('/intradata/temp')
 
     # check for exsisting data files
@@ -40,11 +41,13 @@ def volatility():
 
     # create new ticker data file if one does not exist or add new lines lines to existing files
     if filecheck == False:
-        newfile = open('/intradata/' + ticker,'w').writelines(templines[7:-1])
+        with open('/intradata/' + ticker, 'w') as f:
+            newfile = f.writelines(templines[7:-1])
     else:
         # parse exsiting data files, and new temp data files
         tempfile, tempdays = parsefile(templines)
-        existinglines = open('/intradata/' + ticker).readlines()
+        with open('/intradata/' + ticker) as f:
+            existinglines = f.readlines()
         existingfile, existingdays = parsefile(existinglines)
 
         # merge files, get data older than 15 days from existing file & get data within current 15 days from temp file
@@ -62,12 +65,12 @@ def volatility():
             mergedfile += str(tempfile[str(tempdays[x]) + 'data'])
 
         # overide exsiting file with new data
-        override = open('/intradata/' + ticker, 'w')
-        override.write(mergedfile)
-        override.close()
+        with open('/intradata/' + ticker, 'w') as f:
+            f.write(mergedfile)
 
     # open ticker data file and use data
-    data = open('/intradata/' + ticker).readlines()
+    with open('/intradata/' + ticker) as f:
+        data = f.readlines()
 
     # create dictionary for data storage && store data / run calculations for each min (390 mins per day) 
     intraday = {}
