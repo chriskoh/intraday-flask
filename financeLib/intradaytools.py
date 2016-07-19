@@ -2,6 +2,7 @@
 # intradaytools.py
 # library to be used across all analysis scripts
 
+import redis
 import datetime
 import os
 import requests
@@ -11,20 +12,23 @@ from bs4 import BeautifulSoup, NavigableString
 # scrape website, return html
 def scrape(website):
 
-        set_url = website
-        cal_resp = requests.get(set_url)
-        cal_data = cal_resp.text
-        data = BeautifulSoup(cal_data, 'lxml')
+    set_url = website
+    cal_resp = requests.get(set_url)
+    cal_data = cal_resp.text
+    data = BeautifulSoup(cal_data, 'lxml')
 
-        return data
+    return data
 
 # create a temporary file, will be used to compare to possible exsisting data
 def temp(ticker, market):
 
-        data = scrape('https://www.google.com/finance/getprices?q=' + str(ticker.upper()) + '&x=' + str(market.upper()) + '&i=60&p=30d&f=d,c,h,l,o,v')
-        data = str(data)
-        with open('/intradata/temp', 'w') as f:
-            f.write(data)
+    data = scrape('https://www.google.com/finance/getprices?q=' + str(ticker.upper()) + '&x=' + str(market.upper()) + '&i=60&p=30d&f=d,c,h,l,o,v')
+    data = str(data)
+    with open('/intradata/temp', 'w') as f:
+        f.write(data)
+    r = redis.Redis('localhost')
+    r.set('temp',data)
+        
 
 # find the market that the particular ticker is traded on
 def findmarket(ticker):

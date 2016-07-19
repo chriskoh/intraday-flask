@@ -2,6 +2,7 @@
 # finance flask application
 
 import sys
+import redis
 from flask import Flask, render_template, request, url_for
 from financeLib.intradaytools import *
 from financeLib.charts import *
@@ -18,7 +19,10 @@ def form():
 # get information from form, run volatility calculations
 @application.route("/finance/volatility/", methods=['POST'])
 def volatility():
-	
+
+    # connect to redis
+    r = redis.Redis('localhost')
+
     # pull ticker from from
     ticker = request.form['ticker']
 	
@@ -35,6 +39,9 @@ def volatility():
     with open ('/intradata/temp') as f:
         templines = f.readlines()
     os.remove('/intradata/temp')
+
+    templines2 = r.get('temp').splitlines()
+    r.delete('temp')
 
     # check for exsisting data files
     filecheck = os.path.isfile('/intradata/' + ticker)
