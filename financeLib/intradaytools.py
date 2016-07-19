@@ -28,7 +28,6 @@ def temp(ticker, market):
         f.write(data)
     r = redis.Redis('localhost')
     r.set('temp',data)
-        
 
 # find the market that the particular ticker is traded on
 def findmarket(ticker):

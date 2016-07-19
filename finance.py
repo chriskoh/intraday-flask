@@ -45,11 +45,14 @@ def volatility():
 
     # check for exsisting data files
     filecheck = os.path.isfile('/intradata/' + ticker)
+    filecheck2 = r.exists(ticker)
 
     # create new ticker data file if one does not exist or add new lines lines to existing files
     if filecheck == False:
         with open('/intradata/' + ticker, 'w') as f:
             newfile = f.writelines(templines[7:-1])
+        r.set(ticker, templines2[7:-1])
+
     else:
         # parse exsiting data files, and new temp data files
         tempfile, tempdays = parsefile(templines)
