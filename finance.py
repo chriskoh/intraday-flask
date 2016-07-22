@@ -40,8 +40,22 @@ def volatility():
         templines = f.readlines()
     os.remove('/intradata/temp')
 
-    templines2 = r.get('temp').splitlines()
-    r.delete('temp')
+    templines2 = str(r.get('temp'))
+    templines2.split('/n')
+
+    test = r.get('temp')
+    test = test.split()
+    
+    with open('/home/crees/finance/tl1', 'w') as f:
+        f.writelines(templines)
+
+    with open('/home/crees/finance/tl2', 'w') as f:
+        f.writelines(templines2)
+
+    r.set('tl1', templines)
+    r.set('tl1type', type(templines))
+    r.set('tl2', test)
+    r.set('tl2type', type(test))
 
     # check for exsisting data files
     filecheck = os.path.isfile('/intradata/' + ticker)
@@ -56,6 +70,14 @@ def volatility():
     else:
         # parse exsiting data files, and new temp data files
         tempfile, tempdays = parsefile(templines)
+        tempfile2, tempdays2 = parsefile(templines2)
+
+        r.set('testaFile', tempfile)
+        r.set('testaDays', tempdays)
+
+        r.set('testbFile', tempfile2)
+        r.set('testbDays', tempdays2)
+
         with open('/intradata/' + ticker) as f:
             existinglines = f.readlines()
         existingfile, existingdays = parsefile(existinglines)
